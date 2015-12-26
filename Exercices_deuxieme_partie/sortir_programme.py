@@ -1,4 +1,4 @@
-#pour sortir d'un programme par appui sur 'Q'
+# pour sortir d'un programme par appui sur 'Q'
 
 chaine = str()
 
