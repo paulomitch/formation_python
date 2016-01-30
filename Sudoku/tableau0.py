@@ -40,13 +40,13 @@ def manquant(suite):
     return manque
 x = 2
 y = 2
-print(extrait_ligne(tableau, x))
+#print(extrait_ligne(tableau, x))
 ligne = extrait_ligne(tableau, x)
 
-print(extrait_colonne(tableau, y))
+#print(extrait_colonne(tableau, y))
 colonne = extrait_colonne(tableau, y)
 
-print(extrait_carre(tableau, x, y))
+#print(extrait_carre(tableau, x, y))
 carre = extrait_carre(tableau, x, y)
 
 print(manquant(ligne))
@@ -62,9 +62,9 @@ for x, ligne in enumerate(tableau):
         if index == "":
             print (x, y)
             blanc.append([x, y])
+            print(blanc)
             #liste des coordonnées (ligne, colonne) des cases blanches
-print(blanc)
-
+#OK
 i = 0
 j = 0
 reste = []
@@ -72,14 +72,18 @@ while i < len(blanc):
     (x, y) = blanc[i]
     print(x, y)
     ligne = extrait_ligne(tableau, x)
+    print(ligne)
     colonne = extrait_colonne(tableau, y)
+    print(colonne)
     print(manquant(ligne))
     print(manquant(colonne))
-    for i in enumerate(manquant(ligne)):
-        print(i)
-        for j in enumerate(manquant(colonne)):
-            if i == j:
-                reste.append(i)
-            j = j + 1
-        i = i + 1
-    print(reste)
+    #for i in manquant(ligne):
+        #print(i)
+        #for j in manquant(colonne):
+            #if i == j:
+                #reste.append(i)
+                #break
+            #j = j + 1
+        #i = i + 1
+    #print(reste)
+    i = i + 1
