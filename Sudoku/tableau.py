@@ -1,20 +1,21 @@
-l1 = [1, 3, 4]
-l2 = [5, 6, 8]
-l3 = [9, 5, 4]
-tableau = [l1, l2, l3]
-print(tableau[2][2])
+import sudoku
+ajout = 2
 
+l0 = [1, "", "", "", 5, 2, "", 9, 3]
+l1 = ["", 7, "", 1, 9, "", "", 5, 2]
+l2 = [5, "", "", "", 7, 3, "", "", ""]
+l3 = ["", "", 2, "", "", 7, "", "", 8]
+l4 = [8, 3, "", "", "", "", 9, 1, ""]
+l5 = ["", "", "", 3, "", "", "", 6, 7]
+l6 = ["", "", "", 5, 2, "", "", "", 1]
+l7 = [4, 5, 1, 7, 3, "", "", "", ""]
+l8 = [2, 9, 3, "", "", 4, 6, "", ""]
 
-def extrait_colonne(sudoku, index):
+tableau = [l0, l1, l2, l3, l4, l5, l6, l7, l8]
 
-    return [ligne[index] for ligne in sudoku]
-
-
-def extrait_ligne(sudoku, index):
-
-    return sudoku[index]
-
-print(extrait_ligne(tableau, 0))
-
+while sudoku.avancer(tableau) >= 1:
+    appel = sudoku.avancer(tableau)
+    print(ajout)
+print(tableau)
 
 
