@@ -49,32 +49,177 @@ def commun(liste1, liste2):
     return reste
 
 
-def avancer(tableau):
+def avancer(tableau, gui):
     ajout = 0
     reste = []
     for x, ligne in enumerate(tableau):
         for y, index in enumerate(ligne):
             if index == "":
-                print(x, y)
+                #print(x, y)
                 ligne = extrait_ligne(tableau, x)
                 #print(ligne)
                 colonne = extrait_colonne(tableau, y)
                 #print(colonne)
                 carre = extrait_carre(tableau, x, y)
                 #print(carre)
-                #print(manquant(ligne))
-                #print(manquant(colonne))
+                #pint(manquant(ligne))
+                #pint(manquant(colonne))
                 manquant_ligne = manquant(ligne)
+                print(manquant_ligne)
                 manquant_colonne = manquant(colonne)
+                print(manquant_colonne)
                 manquant_carre = manquant(carre)
+                print(manquant_carre)
                 reste = commun(manquant_ligne, manquant_colonne)
                 reste = commun(reste, manquant_carre)
                 print("manque le ", reste)
-                print("len = ", len(reste))
+                #print("len = ", len(reste))
                 if len(reste) == 1:
                     print("placer ", reste[0], "à la case ", x, y)
                     tableau[x][y] = reste[0]
+                    gui.setColor(x, y, "green")
+                    #s = input("taper \"s\" pour suite")
+                    #if s == s:
+                    gui.setValue(x, y, reste[0])
                     ajout = ajout + 1
-                    print("ajout = ", ajout)                 
-                   
-    return int(ajout)
+                    #print("ajout = ", ajout)
+
+    return ajout
+
+
+def affiche_2_valeurs(liste):
+    valeur = " ".join(liste)
+    return valeur
+
+
+def avancer_plus(tableau, gui):
+    x = 0
+    y = x
+    x = y
+    for x, ligne in enumerate(tableau):
+        for y, index in enumerate(ligne):
+            if index == "":
+                ligne = extrait_ligne(tableau, x)
+                colonne = extrait_colonne(tableau, y)
+                carre = extrait_carre(tableau, x, y)
+                manquant_ligne = manquant(ligne)
+                print(manquant_ligne)
+                if len(manquant_ligne) == 2:
+                    valeur = manquant_ligne
+                    print(valeur)
+                    gui.setColor(x, y, "grey")
+                    gui.setValue(x, y, manquant_ligne[1])
+                    tableau[x][y] = manquant_ligne[1]
+                manquant_colonne = manquant(colonne)
+                print(manquant_colonne)
+                manquant_carre = manquant(carre)
+                print(manquant_carre)
+
+
+def resoudre(tableau, gui):
+    total_ajout = 0
+    dernier_ajout = 1
+    while dernier_ajout > 0:
+        dernier_ajout = avancer(tableau, gui)
+        total_ajout = total_ajout + dernier_ajout
+        tableau_final = tableau
+        print("nombre de valeur ajoutée =", total_ajout)
+        print(tableau_final)
+    dernier_ajout = avancer_plus(tableau, gui)
+
+
+def tracer_tableau(tableau):
+    print("+---+---+---+---+---+---+---+---+---+")
+    for ligne in tableau:
+        nb = " | ".join([str(i) for i in ligne])
+        print("|", nb, "|")
+        print("+---+---+---+---+---+---+---+---+---+")
+
+
+def verification_carre(tableau):
+    x = 0
+    y = 0
+
+    for x in [0, 3, 6]:
+        for y in [0, 3, 6]:
+            carre = extrait_carre(tableau, x, y)
+            carre_verif = set(carre)
+            if len(carre_verif) == 9:
+                coin = (tableau[x][y])
+                print("carré de coin", coin, "OK")
+            #else:
+                #print("carré de coin", coin, y, "faux")
+
+
+def verification_ligne(tableau):
+    for x in range(0, 9):
+        ligne = extrait_ligne(tableau, x)
+        print(ligne)
+        if "" in ligne:
+            print("ligne", x, ligne, "fausse")
+        elif len(ligne) == 9:
+            print("ligne", x, ligne, "bonne")
+        else:
+            print("ligne", x, ligne, "fausse")
+        print(len(ligne))
+
+
+def verification_colonne(tableau):
+    for x in range(0, 9):
+        colonne = extrait_colonne(tableau, x)
+        print(colonne)
+        if "" in colonne:
+            print("colonne", x, colonne, "fausse")
+        else:
+            sorted(colonne)
+            if len(colonne) == 9:
+                print("colonne", x, colonne, "bonne")
+    print(len(colonne))
+
+
+def generate_tableau1():
+    l0 = [4, 3, 6, "", "", 7, "", "", ""]
+    l1 = [2, 9, 1, "", "", 6, 4, "", ""]
+    l2 = ["", "", 8, "", 4, "", "", "", ""]
+    l3 = [5, "", "", "", 1, "", "", 8, 3]
+    l4 = ["", 1, 9, 2, "", 5, 7, "", 6]
+    l5 = [6, "", 4, "", 3, "", "", 5, 2]
+    l6 = [8, "", "", "", "", 1, 2, 3, ""]
+    l7 = ["", "", 2, 4, 7, 3, "", "", ""]
+    l8 = ["", 4, "", "", "", 8, "", 9, ""]
+
+    tableau = [l0, l1, l2, l3, l4, l5, l6, l7, l8]
+
+    return tableau
+
+
+def generate_tableau():
+    l0 = [1, "", "", "", 5, 2, "", 9, 3]
+    l1 = ["", 7, "", 1, 9, "", "", 5, 2]
+    l2 = [5, "", "", "", 7, 3, "", "", ""]
+    l3 = ["", "", 2, "", "", 7, "", "", 8]
+    l4 = [8, 3, "", "", "", "", 9, 1, ""]
+    l5 = ["", "", "", 3, "", "", "", 6, 7]
+    l6 = ["", "", "", 5, 2, "", "", "", 1]
+    l7 = [4, 5, 1, 7, 3, "", "", "", ""]
+    l8 = [2, 9, 3, "", "", 4, 6, "", ""]
+
+    tableau = [l0, l1, l2, l3, l4, l5, l6, l7, l8]
+
+    return tableau
+
+
+def generate_tableau2():
+    l0 = ["", "", 2, 4, "", "", "", 1, 3]
+    l1 = [8, 3, "", "", "", 1, "", "", ""]
+    l2 = ["", "", "", 2, "", "", 6, "", ""]
+    l3 = ["", "", "", "", 5, "", "", "", 4]
+    l4 = [3, 9, "", "", "", "", "", "", ""]
+    l5 = ["", "", "", 7, "", "", 9, "", ""]
+    l6 = ["", 7, "", "", "", "", "", 3, ""]
+    l7 = [1, 2, 5, "", "", "", "", "", 9]
+    l8 = ["", "", "", 8, "", "", 4, "", 5]
+
+    tableau = [l0, l1, l2, l3, l4, l5, l6, l7, l8]
+
+    return tableau
