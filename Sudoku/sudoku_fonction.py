@@ -108,13 +108,12 @@ def avancer_plus(tableau, gui):
                     valeur = manquant_ligne
                     print(valeur)
                     gui.setColor(x, y, "grey")
-                    gui.setValue(x, y, manquant_ligne)
-                    tableau[x][y] = manquant_ligne
+                    gui.setValue(x, y, manquant_ligne[1])
+                    tableau[x][y] = manquant_ligne[1]
                 manquant_colonne = manquant(colonne)
                 print(manquant_colonne)
                 manquant_carre = manquant(carre)
                 print(manquant_carre)
-
 
 
 def resoudre(tableau, gui):
@@ -153,26 +152,29 @@ def verification_carre(tableau):
 
 
 def verification_ligne(tableau):
-    for x, ligne in enumerate(tableau):
-        #print(ligne)
-        ligne_verif = set(ligne)
-        #print(ligne_verif)
-        if len(ligne_verif) == 9:
-            print("ligne", x, ligne, "OK")
+    for x in range(0, 9):
+        ligne = extrait_ligne(tableau, x)
+        print(ligne)
+        if "" in ligne:
+            print("ligne", x, ligne, "fausse")
+        elif len(ligne) == 9:
+            print("ligne", x, ligne, "bonne")
         else:
-            print("ligne", x, "fausse")
+            print("ligne", x, ligne, "fausse")
+        print(len(ligne))
 
 
 def verification_colonne(tableau):
-    for y in range(0, 9):
-        colonne = extrait_colonne(tableau, y)
-        #print(colonne)
-        colonne_verif = set(colonne)
-        #print(colonne_verif)
-        if len(colonne_verif) == 9:
-            print("colonne", y, colonne, "OK")
+    for x in range(0, 9):
+        colonne = extrait_colonne(tableau, x)
+        print(colonne)
+        if "" in colonne:
+            print("colonne", x, colonne, "fausse")
         else:
-            print("colonne", y, "fausse")
+            sorted(colonne)
+            if len(colonne) == 9:
+                print("colonne", x, colonne, "bonne")
+    print(len(colonne))
 
 
 def generate_tableau1():
