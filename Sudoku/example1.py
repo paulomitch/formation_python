@@ -20,13 +20,14 @@ def init_interface(tableau, gui):
 
 
 def go():
+    #ajout = 0
     #init_interface(tableau, gui)
     #resoudre(tableau, gui)
     #ajout = 0
     #avancer(tableau, gui)
     print(avancer(tableau, gui))
-    #if ajout != 0:
-    avancer_plus(tableau, gui)
+    #if ajout == 0:
+        #avancer_plus(tableau, gui)
     verification_ligne(tableau)
     verification_colonne(tableau)
     #gui.setValue(0, 0, 1)
@@ -57,3 +58,5 @@ gui.setCallBack(go)
 init_interface(tableau, gui)
 #gui.setCallBack(go)
 gui.start()
+
+

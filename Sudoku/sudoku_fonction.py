@@ -65,24 +65,53 @@ def avancer(tableau, gui):
                 #pint(manquant(ligne))
                 #pint(manquant(colonne))
                 manquant_ligne = manquant(ligne)
-                print(manquant_ligne)
+                #print(manquant_ligne)
+                if len(manquant_ligne) == 1:
+                    print("red")
+                    if manquant_ligne not in colonne and carre:
+                        print("manque le ", manquant_ligne[0], "ligne ", x)
+                        tableau [x][y] = manquant_ligne[0]
+                        gui.setColor(x, y, "red")
+                        gui.setValue(x, y, manquant_ligne[0])
+                        ajout = ajout + 1
+
                 manquant_colonne = manquant(colonne)
-                print(manquant_colonne)
+                #print(manquant_colonne)
+                if len(manquant_colonne) == 1:
+                    print("yellow")
+                    if manquant_colonne not in ligne and carre:
+                        print("manque le ", manquant_colonne[0], "colonne ", y)
+                        tableau [x][y] = manquant_colonne[0]
+                        gui.setColor(x, y, "yellow")
+                        gui.setValue(x, y, manquant_colonne[0])
+                        ajout = ajout + 1
                 manquant_carre = manquant(carre)
-                print(manquant_carre)
-                reste = commun(manquant_ligne, manquant_colonne)
-                reste = commun(reste, manquant_carre)
-                print("manque le ", reste)
-                #print("len = ", len(reste))
-                if len(reste) == 1:
-                    print("placer ", reste[0], "à la case ", x, y)
-                    tableau[x][y] = reste[0]
-                    gui.setColor(x, y, "green")
+                #print(manquant_carre)
+                if len(manquant_carre) == 1:
+                    print("orange")
+                    if manquant_carre not in ligne and colonne:
+                        print("manque le ", manquant_ligne[0], "carré ", x,y)
+                        tableau [x][y] = manquant_carre[0]
+                        gui.setColor(x, y, "orange")
+                        gui.setValue(x, y, manquant_carre[0])
+                        ajout = ajout + 1
+                        
+                if ajout == 0:
+                    reste = commun(manquant_ligne, manquant_colonne)
+                    reste = commun(reste, manquant_carre)
+                    print("manque le ", reste)
+                    #print("len = ", len(reste))
+                    if len(reste) == 1:
+                        print("placer ", reste[0], "à la case ", x, y)
+                        tableau[x][y] = reste[0]
+                        gui.setColor(x, y, "green")
                     #s = input("taper \"s\" pour suite")
                     #if s == s:
-                    gui.setValue(x, y, reste[0])
-                    ajout = ajout + 1
+                        gui.setValue(x, y, reste[0])
+                        ajout = ajout + 1
                     #print("ajout = ", ajout)
+    if ajout == 0:
+        avancer_plus(tableau, gui)
 
     return ajout
 
@@ -93,9 +122,6 @@ def affiche_2_valeurs(liste):
 
 
 def avancer_plus(tableau, gui):
-    x = 0
-    y = x
-    x = y
     for x, ligne in enumerate(tableau):
         for y, index in enumerate(ligne):
             if index == "":
@@ -103,17 +129,24 @@ def avancer_plus(tableau, gui):
                 colonne = extrait_colonne(tableau, y)
                 carre = extrait_carre(tableau, x, y)
                 manquant_ligne = manquant(ligne)
-                print(manquant_ligne)
+                manquant_colonne = manquant(colonne)
+                manquant_carre = manquant(carre)
+                #print(manquant_ligne)
                 if len(manquant_ligne) == 2:
                     valeur = manquant_ligne
                     print(valeur)
-                    gui.setColor(x, y, "grey")
-                    gui.setValue(x, y, manquant_ligne[1])
-                    tableau[x][y] = manquant_ligne[1]
-                manquant_colonne = manquant(colonne)
-                print(manquant_colonne)
-                manquant_carre = manquant(carre)
-                print(manquant_carre)
+                    if manquant_ligne[0] in manquant_colonne and manquant_carre:
+                        print(manquant_ligne[0])
+                        gui.setColor(x, y, "grey")
+                        gui.setValue(x, y, manquant_ligne[0])
+                        tableau[x][y] = manquant_ligne[0]
+                #print("colonne ", x, y, manquant_colonne)
+                #print(manquant_carre)
+
+
+#def 2_manquants_ligne:
+    #if manquant_ligne[0] in manquant_carre:
+        
 
 
 def resoudre(tableau, gui):
@@ -136,7 +169,7 @@ def tracer_tableau(tableau):
         print("+---+---+---+---+---+---+---+---+---+")
 
 
-def verification_carre(tableau):
+#def verification_carre(tableau):
     x = 0
     y = 0
 
@@ -150,31 +183,29 @@ def verification_carre(tableau):
             #else:
                 #print("carré de coin", coin, y, "faux")
 
+def verification(liste, x, nom):
+    ref = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    if "" in liste:
+        print(nom, x, liste, "fausse")
+    elif ref == list(set(liste)):
+        print(nom, x, liste, "bonne")
+    else:
+        print(nom, x, liste, "fausse")
+
+
 
 def verification_ligne(tableau):
     for x in range(0, 9):
         ligne = extrait_ligne(tableau, x)
-        print(ligne)
-        if "" in ligne:
-            print("ligne", x, ligne, "fausse")
-        elif len(ligne) == 9:
-            print("ligne", x, ligne, "bonne")
-        else:
-            print("ligne", x, ligne, "fausse")
-        print(len(ligne))
+        nom = "ligne"
+        verification(ligne, x, nom)
 
 
 def verification_colonne(tableau):
     for x in range(0, 9):
         colonne = extrait_colonne(tableau, x)
-        print(colonne)
-        if "" in colonne:
-            print("colonne", x, colonne, "fausse")
-        else:
-            sorted(colonne)
-            if len(colonne) == 9:
-                print("colonne", x, colonne, "bonne")
-    print(len(colonne))
+        nom = "colonne"
+        verification(colonne, x, nom)
 
 
 def generate_tableau1():
